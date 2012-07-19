@@ -1,0 +1,60 @@
+{% extends "base.html"%}
+{% block nav_list %}
+<li class="nav-header">项目列表</li>
+{% for nav in nav_list %}
+<li {% if nav.active %} class="active" {% endif %}><a href="/admin/bugreport/testsets/{{ nav.id }}">{{ nav.name }}</a></li>
+{% endfor %}
+{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<td><h3>Case Name</h3></td>
+			<td><h3>Status</h3></td>
+			<td><h3>OLD_JIRA_ID</h3></td>
+			<td><h3>NEW_JIRA_ID</h3></td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for test in failTests %}
+		<tr>
+			<td>{{ test.name }}</td>
+			<td>{{ test.status }}</td>
+			<td>{{ test.bugkey }}</td>
+			<td><input id="bug_{{ test.id }}" type="text" class="input-small" /> <a href="{{ test.id }}">修改</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<input id = "url" type="hidden" value="{{ bugurl }}" />
+<script>
+	$(document).ready(function(){
+		$("a").click(function(){
+			var tstestid = $(this).attr("href");
+			var dom = $(this).siblings();
+			var bugkey = $(dom[0]).val();
+			var url = $("#url").val();
+			
+			$.ajax({
+				  url:url,
+				  type:"POST",
+				  data:JSON.stringify({  
+						"tstestid":tstestid,
+						"bugkey":bugkey
+				      	}),  
+				  contentType:"application/json",
+				  dataType:"json",
+				  success: function(data){
+						alert("modify successfully");
+						window.location.reload();
+				  }
+				})
+			 
+			return false;
+		});
+	});
+</script>
+
+{% endblock %}
+
