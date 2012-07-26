@@ -1,1 +1,10 @@
-This file was created by PyCharm 2.5.2 for binding GitHub repository
+The Python Wrapped Restful API for Quality Center
+
+1. Installation Preparation
+  
+  Quality Center Version > 10.0 
+  Python Version > 2.6 
+
+  Modules Requires: ['Flask','win32api']
+
+2. Install Guide
